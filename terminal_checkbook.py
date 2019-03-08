@@ -2,6 +2,7 @@
 
 import time
 import sys
+import json
 # time
 # pprint
 
@@ -36,10 +37,13 @@ def main_menu():
         main_menu()
     if selection == '1':
         print('user selected view balance')
+        view_balance()
     if selection == '2':
         print('user selected to withdrawl')
+        user_withdrawl()
     if selection == '3':
         print('user selected to deposit')
+        user_deposit()
     if selection == '4':
         print('user selected additional info')
     if selection == '5':
@@ -48,8 +52,20 @@ def main_menu():
 # View Balance Menu
 
 
+# def get_balance():
+#     balance = 0
+#     return balance
+
+
 def view_balance():
-    amount_to_view = input('How many transactions would you like to view? ')
+    balance = 0
+    with open('transaction_history.json', 'r') as f:
+        historical_trans = json.load(f)
+        for i in historical_trans:
+            balance = balance + i['trans_amount']
+    print(f'Your current balance is: ${balance}')
+
+    # amount_to_view = input('How many transactions would you like to view? ')
 
     # with open('transaction_history.txt') as f:
     #     msg = f.read()
@@ -60,19 +76,31 @@ def view_balance():
 
 def user_withdrawl():
     amount_to_withdrawl = float(
-        input('How much are you withdrawling? (ex. $50.25 '))
+        input('How much are you withdrawling? (ex. $50.25) '))
+    amount_to_withdrawl = amount_to_withdrawl * -1
     print(f'user entered withdrawl amount of {amount_to_withdrawl}')
+    withdrawl_transaction = [{'trans_no': get_trans_no(),
+                              'trans_type': 'deposit', 'trans_amount': amount_to_withdrawl}]
+    execute_withdrawl(withdrawl_transaction)
     # goto withdrawl_transaction
 
 # Deposit menu
 
 
+def get_trans_no():
+    with open('transaction_history.json', 'r') as f:
+        historical_trans = json.load(f)
+        trans_no = historical_trans[-1]['trans_no']
+        return int(trans_no) + 1
+
+
 def user_deposit():
     amount_to_deposit = float(
-        input('How much are you depositing? (ex. $50.25 '))
+        input('How much are you depositing? (ex. $50.25) '))
     print(f'user entered deposit amount of {amount_to_deposit}')
-    # goto deposit_transaction
-
+    deposit_transaction = [{'trans_no': get_trans_no(),
+                            'trans_type': 'deposit', 'trans_amount': amount_to_deposit}]
+    execute_deposit(deposit_transaction)
 # Additional information menu
 
 
@@ -81,6 +109,31 @@ def additional_info_menu():
     print('2) option 2')
     print('3) option 3')
     print('4) option 4')
+
+# database stuff
+# data = [{'trans_no': 3, 'trans': 10.00}, {'trans_no': 4, 'trans': 75.00}]
+
+# read from
+
+
+def execute_deposit(trans_list):
+    with open('transaction_history.json', 'r') as f:
+        historical_trans = json.load(f)
+
+    # overwrite to
+    with open('transaction_history.json', 'w') as f:
+        new_trans = historical_trans + trans_list
+        json.dump(new_trans, f)
+
+
+def execute_withdrawl(trans_list):
+    with open('transaction_history.json', 'r') as f:
+        historical_trans = json.load(f)
+
+    # overwrite to
+    with open('transaction_history.json', 'w') as f:
+        new_trans = historical_trans + trans_list
+        json.dump(new_trans, f)
 
 
 # Logging naming conventions
