@@ -11,7 +11,10 @@
 
 
 # Input validation
-
+menu_options = '12345'
+while selection = input('What would you like to do?') in menu_options:
+    continue
+    input
 
 # Menu 1 prompt
 
@@ -28,3 +31,5 @@
 #     2) record a debit (withdraw)
 #     3) record a credit (deposit)
 #     4) exit
+
+# Logging naming conventions
