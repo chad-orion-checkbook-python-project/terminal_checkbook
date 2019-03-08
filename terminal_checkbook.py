@@ -1,35 +1,54 @@
 # This is the terminal_checkbook.py file
 
-# imports
+import time
+import sys
 # time
 # pprint
+
+MENU_OPTIONS = '12345'
 
 # Welcome function
 
 
+def welcome():
+    print('~~~ Welcome to your terminal checkbook ~~~\n\n')
+    main_menu()
+
 # Exit function
 
 
-# Input validation
-menu_options = '12345'
-while selection = input('What would you like to do?') in menu_options:
-    continue
-    input
+def exit_method():
+    print('~~~ Thank you for banking with Chad\'s Wallet! ~~~')
+    exit()
 
-# Menu 1 prompt
+# Input validation
+
+
+def menu_selection(user_selection):
+    if user_selection in MENU_OPTIONS:
+        return user_selection
+    if user_selection not in MENU_OPTIONS:
+        print(f'Sorry but {user_selection} is not a valid option.  Try again.')
+        selection = input('What would you like to do? ')
+        return menu_selection(selection)
+    print('user selected {}'.format(selection))  # error checking
+    return user_selection
 
 
 # Sub menu prompt
 
 
 # Menu items
-#     ~~~ Welcome to your terminal checkbook! ~~~
-
-#     What would you like to do?
-
-#     1) view current balance
-#     2) record a debit (withdraw)
-#     3) record a credit (deposit)
-#     4) exit
-
+def main_menu():
+    print('1) view current balance')
+    print('2) record a withdrawl')
+    print('3) record a deposit')
+    print('4) exit\n')
+    selection = input('What would you like to do? ')
+    menu_selection(selection)
+    # if user_selection == 4:
+    #     exit_method()
 # Logging naming conventions
+
+
+welcome()
