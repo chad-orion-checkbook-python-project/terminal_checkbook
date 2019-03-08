@@ -51,24 +51,65 @@ def main_menu():
 # Logging naming conventions
 
 
-<<<<<<< HEAD
 welcome()
-=======
+
+
+
+
+
+# def write_to_trans_log(transaction):
+#     with open('transaction_history.txt', 'a') as f:
+#         for listitem in transaction:
+#             f.write('%s' % listitem)
+# t = ['a', 'b', 'c'] # list to populates/append the transaction history
+# write_to_trans_log(t)
+
+
+# import json
+# filename = file.text
+
+# checkbook = [
+#     {
+
+
+
+#     }
+# ]
+
+
+
+
+
+
+
+
+# create list of values
+
+
+
+# open and append to it
+
+# with open('4.5_working_with_files.py', 'w') as f:
+#     f.write('# 4.5_working_with_files.py \n# Hackney,_Chad \n# 07 Mar 19 \n#==============#')
+
+
+# with open('file_name.txt', x) as f:
+#     f.write('my message to display and write\n')
+
 
 
 # Logging naming conventions
 
-# required fields
-trans_no #incrementing number, int
-trans #dollar value, float
+# # required fields
+# trans_no #incrementing number, int
+# trans #dollar value, float
 
-# optional add'l field
-running_total # incrementing number, float, populated in code
-date #now, date type, populated automatically on transaction
-time #now, time type, populated automatically on transaction
-trans_type # deposit or withdrawal, str, populated in code based on type of trans
-trans_desc #open text field for user input, str, populated via user input
+# # optional add'l field
+# running_total # incrementing number, float, populated in code
+# date #now, date type, populated automatically on transaction
+# time #now, time type, populated automatically on transaction
+# trans_type # deposit or withdrawal, str, populated in code based on type of trans
+# trans_desc #open text field for user input, str, populated via user input
 
 
 
->>>>>>> e17bbb66f2e677876d50b5e53aa3f8231271a42b
