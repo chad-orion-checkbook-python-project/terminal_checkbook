@@ -51,4 +51,24 @@ def main_menu():
 # Logging naming conventions
 
 
+<<<<<<< HEAD
 welcome()
+=======
+
+
+# Logging naming conventions
+
+# required fields
+trans_no #incrementing number, int
+trans #dollar value, float
+
+# optional add'l field
+running_total # incrementing number, float, populated in code
+date #now, date type, populated automatically on transaction
+time #now, time type, populated automatically on transaction
+trans_type # deposit or withdrawal, str, populated in code based on type of trans
+trans_desc #open text field for user input, str, populated via user input
+
+
+
+>>>>>>> e17bbb66f2e677876d50b5e53aa3f8231271a42b
