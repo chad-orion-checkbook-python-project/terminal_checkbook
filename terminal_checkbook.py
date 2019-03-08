@@ -49,13 +49,41 @@ def main_menu():
 
 
 def view_balance():
-    with open('transaction_history.txt') as f:
-        msg = f.read()
-        print(msg)
+    amount_to_view = input('How many transactions would you like to view? ')
+
+    # with open('transaction_history.txt') as f:
+    #     msg = f.read()
+    #     print(msg)
+
+# Withdrawl menu
+
+
+def user_withdrawl():
+    amount_to_withdrawl = float(
+        input('How much are you withdrawling? (ex. $50.25 '))
+    print(f'user entered withdrawl amount of {amount_to_withdrawl}')
+    # goto withdrawl_transaction
+
+# Deposit menu
+
+
+def user_deposit():
+    amount_to_deposit = float(
+        input('How much are you depositing? (ex. $50.25 '))
+    print(f'user entered deposit amount of {amount_to_deposit}')
+    # goto deposit_transaction
+
+# Additional information menu
+
+
+def additional_info_menu():
+    print('1) option 1')
+    print('2) option 2')
+    print('3) option 3')
+    print('4) option 4')
+
 
 # Logging naming conventions
-
-
 welcome()
 
 
