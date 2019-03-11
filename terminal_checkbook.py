@@ -1,10 +1,10 @@
 # This is the terminal_checkbook.py file
 
+import datetime
 import time
 import sys
 import json
-# time
-# pprint
+from pprint import pprint
 
 MENU_OPTIONS = ('1', '2', '3', '4', '5')
 
@@ -19,12 +19,13 @@ def welcome():
 
 
 def exit_method():
-    print('~~~ Thank you for banking with Chad\'s Wallet! ~~~')
+    print('\n~~~ Thank you for banking with Chad\'s Wallet! ~~~')
     exit()
 
 
 # Menu items
 def main_menu():
+    print('\n Welcome to the Main Menu\n\n')
     print('1) view current balance')
     print('2) record a withdrawl')
     print('3) record a deposit')
@@ -36,25 +37,21 @@ def main_menu():
             f'Sorry but {selection} is not a valid option.  Returning to Main Menu.\n\n')
         main_menu()
     if selection == '1':
-        print('user selected view balance')
+        # print('user selected view balance')
         view_balance()
     if selection == '2':
-        print('user selected to withdrawl')
+        # print('user selected to withdrawl')
         user_withdrawl()
     if selection == '3':
-        print('user selected to deposit')
+        # print('user selected to deposit')
         user_deposit()
     if selection == '4':
-        print('user selected additional info')
+        # print('user selected additional info')
+        additional_info_menu()
     if selection == '5':
         exit_method()
 
 # View Balance Menu
-
-
-# def get_balance():
-#     balance = 0
-#     return balance
 
 
 def view_balance():
@@ -63,13 +60,9 @@ def view_balance():
         historical_trans = json.load(f)
         for i in historical_trans:
             balance = balance + i['trans_amount']
-    print(f'Your current balance is: ${balance}')
+    print(f'Your current balance is: ${balance}\n\n')
+    main_menu()
 
-    # amount_to_view = input('How many transactions would you like to view? ')
-
-    # with open('transaction_history.txt') as f:
-    #     msg = f.read()
-    #     print(msg)
 
 # Withdrawl menu
 
@@ -79,41 +72,54 @@ def user_withdrawl():
         input('How much are you withdrawling? (ex. $50.25) '))
     amount_to_withdrawl = amount_to_withdrawl * -1
     print(f'user entered withdrawl amount of {amount_to_withdrawl}')
+    trans_date = trans_date_time()
     withdrawl_transaction = [{'trans_no': get_trans_no(),
-                              'trans_type': 'deposit', 'trans_amount': amount_to_withdrawl}]
+                              'trans_type': 'withdrawl', 'trans_amount': amount_to_withdrawl, 'date_and_time': trans_date}]
     execute_withdrawl(withdrawl_transaction)
-    # goto withdrawl_transaction
-
-# Deposit menu
+    # goto execute_withdrawl
 
 
+# transaction number iterator
 def get_trans_no():
     with open('transaction_history.json', 'r') as f:
         historical_trans = json.load(f)
         trans_no = historical_trans[-1]['trans_no']
         return int(trans_no) + 1
 
+# user deposit request
+
 
 def user_deposit():
     amount_to_deposit = float(
         input('How much are you depositing? (ex. $50.25) '))
     print(f'user entered deposit amount of {amount_to_deposit}')
+    trans_date = trans_date_time()
     deposit_transaction = [{'trans_no': get_trans_no(),
-                            'trans_type': 'deposit', 'trans_amount': amount_to_deposit}]
+                            'trans_type': 'deposit', 'trans_amount': amount_to_deposit, 'date_and_time': trans_date}]
     execute_deposit(deposit_transaction)
+    # goto execute_deposit
+
 # Additional information menu
 
 
 def additional_info_menu():
-    print('1) option 1')
-    print('2) option 2')
-    print('3) option 3')
-    print('4) option 4')
+    print('\n Additional Information Menu\n\n')
+    # print('1) See previous transactions')
+    print('1) View all transactions')
+    print('2) Return to Main Menu\n\n')
+    selection = input('What would you like to do?\n')
+    if selection not in MENU_OPTIONS:
+        print(
+            f'Sorry but {selection} is not a valid option.  Returning to Main Menu.\n\n')
+        main_menu()
+    # if selection == '1':
+    #     see_prev_transactions()
+    if selection == '1':
+        print_all_transactions()
+    if selection == '2':
+        main_menu()
 
-# database stuff
-# data = [{'trans_no': 3, 'trans': 10.00}, {'trans_no': 4, 'trans': 75.00}]
-
-# read from
+# execute the deposit
 
 
 def execute_deposit(trans_list):
@@ -124,6 +130,10 @@ def execute_deposit(trans_list):
     with open('transaction_history.json', 'w') as f:
         new_trans = historical_trans + trans_list
         json.dump(new_trans, f)
+    view_balance()
+    main_menu()
+
+# execute the withdrawl
 
 
 def execute_withdrawl(trans_list):
@@ -134,6 +144,51 @@ def execute_withdrawl(trans_list):
     with open('transaction_history.json', 'w') as f:
         new_trans = historical_trans + trans_list
         json.dump(new_trans, f)
+    view_balance()
+    main_menu()
+
+# print all transactions
+
+
+def print_all_transactions():
+    with open('transaction_history.json', 'r') as f:
+        historical_trans = json.load(f)
+    pprint(historical_trans)
+    additional_info_menu()
+
+# return n-number of previous transactions:
+
+
+def see_prev_transactions():
+    with open('transaction_history.json', 'r') as f:
+        historical_trans = json.load(f)
+        selection = input(
+            'How many previous transactions would you like to view? ')
+        if not selection.isdigit():
+            print(
+                f'Sorry but {selection} is not a valid option.  How many previous transactions would you like to view?\n\n')
+        else:
+            # trans_no = historical_trans[-1]['trans_no']
+            print(f'Most recent {selection} transactions shown below:')
+            # selection = int(selection)
+        for i in historical_trans:
+
+            if historical_trans['trans_no'] == selection:
+                pprint(i)
+    new_selection = historical_trans[-(selection)]  # ['trans_no']
+    pprint(new_selection)
+    additional_info_menu()
+
+
+# date and time of transaction:
+def trans_date_time():
+    date_time = datetime.datetime.now().strftime("%m-%d-%y  %I:%M %p")
+    return date_time
+
+
+def find_trans_range():
+    max = max(historical_trans['trans_no'])
+    return max
 
 
 # Logging naming conventions
